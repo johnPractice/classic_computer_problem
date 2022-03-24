@@ -1,5 +1,4 @@
 from secrets import token_bytes
-from typing import Tuple
 
 
 def generate_ramndome_key(length: int = None) -> int:
