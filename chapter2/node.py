@@ -20,7 +20,8 @@ class Node(Generic[T]):
         while node.parent is not None:
             node = node.parent
             path.append(node.state)
-        return path.reverse()
+        path.reverse()
+        return path
 
     def __lt__(self, other: Node) -> bool:
         return (self.cost + self.heuristic) < (other.cost + other.heuristic)
