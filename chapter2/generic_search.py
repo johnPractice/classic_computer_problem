@@ -1,5 +1,6 @@
-from typing import Sequence, TypeVar
+from typing import Callable, List, Optional, Sequence, Set, TypeVar
 from typing_extensions import Protocol
+from chapter2 import Node, Stack
 T = TypeVar('T')
 C = TypeVar("C", bound="Comparable")
 
@@ -30,6 +31,29 @@ def binary_contains(sequence: Sequence[C], key: C) -> bool:
         else:
             return True
     return False
+
+
+def dfs(initial_state: T, goal_test: Callable[[T], bool], successors: Callable[[T], List[T]]) -> Optional[Node[T]]:
+    frontier: Stack[Node[T]] = Stack()
+    frontier.push(Node(initial_state, None))
+    # explored is where we've been
+    explored: Set[T] = {initial_state}
+
+    # keep moving to explore more
+    while frontier.empty:
+        current_node: Node[T] = frontier.pop()
+        current_state: T = current_node.state
+        # check goal state
+        if goal_test(current_state):
+            return current_node
+        # check where we can go next and haven't explored
+        for child in successors(current_state):
+            if child in explored:  # skip children we already explored
+                continue
+            explored.add(child)
+            # create new node as child with current node as parent
+            frontier.push(Node(child, current_node))
+    return None  # went through everything and never found goal
 
 
 if __name__ == "__main__":
