@@ -49,14 +49,33 @@ def linear_gene_search(gene: Gene, key_codon: Codon) -> Tuple[bool, int]:
     return False, -1
 
 
+def binary_gene_search(gene: Gene, key_codon: Codon) -> Tuple[bool, int]:
+    low: int = 0
+    high: int = len(gene)-1
+    while low <= high:
+        mid: int = (low+high)//2
+        check_codon: Codon = gene[mid]
+        print(type(check_codon))
+        print(type(key_codon))
+        if check_codon == key_codon:
+            return True, mid
+        elif check_codon < key_codon:
+            low = mid+1
+        else:
+            high = mid-1
+    return False, -1
+
+
 def main():
     '''Main function for run'''
 
     gene_str: str = "ACGTCG"
     gene: Gene = str_to_gene(gene_str=gene_str)
+    sorted_gene: Gene = sorted(gene)
     print(gene)
-    check_codone, index = linear_gene_search(
-        gene=gene, key_codon=(Nucleotide.A, Nucleotide.C, Nucleotide.G))
+    check_codone, index = binary_gene_search(
+        gene=sorted_gene, key_codon=(Nucleotide.A, Nucleotide.C, Nucleotide.G))
+
     print(check_codone)
 
 
