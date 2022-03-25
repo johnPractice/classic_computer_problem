@@ -1,7 +1,8 @@
 from enum import Enum
 import random
 from typing import List, NamedTuple, Optional
-from chapter2 import Node, dfs
+from node import Node
+from generic_search import dfs
 
 
 class Cell(str, Enum):
@@ -78,10 +79,8 @@ class Maze:
 def main():
    # Test DFS
     m: Maze = Maze()
-    print(m)
-    solution1: Optional[Node[MazeLocation]] = dfs(m.start, m.goal_check,
-                                                  m.successors)
-
+    solution1: Optional[Node[MazeLocation]] = dfs(
+        m.start, m.goal_check, m.successors)
     if solution1 is None:
         print("No solution found using depth-first search!")
     else:

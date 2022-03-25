@@ -1,6 +1,7 @@
 from typing import Callable, List, Optional, Sequence, Set, TypeVar
 from typing_extensions import Protocol
-from chapter2 import Node, Stack
+from node import Node
+from stack import Stack
 T = TypeVar('T')
 C = TypeVar("C", bound="Comparable")
 
@@ -38,15 +39,16 @@ def dfs(initial_state: T, goal_test: Callable[[T], bool], successors: Callable[[
     frontier.push(Node(initial_state, None))
     # explored is where we've been
     explored: Set[T] = {initial_state}
-
     # keep moving to explore more
-    while frontier.empty:
+    while not frontier.empty:
         current_node: Node[T] = frontier.pop()
+
         current_state: T = current_node.state
         # check goal state
         if goal_test(current_state):
             return current_node
         # check where we can go next and haven't explored
+        # print(successors(current_state))
         for child in successors(current_state):
             if child in explored:  # skip children we already explored
                 continue
